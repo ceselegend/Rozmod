@@ -1,0 +1,17 @@
+[
+{
+  "modid": "rozmod",
+  "name": "Rozmod",
+  "description": "Small mod created for the Rozland server.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "http://www.roz.land",
+  "updateUrl": "",
+  "authorList": ["ceselegend"],
+  "credits": "",
+  "logoFile": "",
+  "parent": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
