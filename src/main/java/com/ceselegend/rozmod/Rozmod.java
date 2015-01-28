@@ -1,12 +1,12 @@
 package com.ceselegend.rozmod;
 
 import com.ceselegend.rozmod.handler.ConfigurationHandler;
+import com.ceselegend.rozmod.init.ModBlocks;
 import com.ceselegend.rozmod.init.ModItems;
 import com.ceselegend.rozmod.proxy.IProxy;
 import com.ceselegend.rozmod.reference.Reference;
 import com.ceselegend.rozmod.utility.LogHelper;
 
-import net.minecraft.init.Blocks;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -30,7 +30,8 @@ public class Rozmod {
     	ConfigurationHandler.init(event.getSuggestedConfigurationFile());
     	FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
     	ModItems.init();
-    	
+        ModBlocks.init();
+
     	LogHelper.info("Pre-initialization done.");
     	
     }
