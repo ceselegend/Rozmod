@@ -6,8 +6,7 @@ import net.minecraft.item.Item;
 
 public class CreativeTabRoz
 {
-    public static final CreativeTabs RozTab = new CreativeTabs(Reference.MOD_ID.toLowerCase())
-    {
+    public static final CreativeTabs RozTab = new CreativeTabs(Reference.MOD_ID.toLowerCase()) {
         @Override
         public Item getTabIconItem()
         {

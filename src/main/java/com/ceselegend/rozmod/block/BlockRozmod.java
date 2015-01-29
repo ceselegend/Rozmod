@@ -12,6 +12,7 @@ public class BlockRozmod extends Block {
 
     public BlockRozmod(Material material) {
         super(material);
+        this.setCreativeTab(CreativeTabRoz.RozTab);
     }
 
     public BlockRozmod() {
