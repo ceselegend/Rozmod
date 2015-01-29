@@ -1,5 +1,6 @@
 package com.ceselegend.rozmod.block;
 
+import com.ceselegend.rozmod.init.CreativeTabRoz;
 import com.ceselegend.rozmod.reference.Reference;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -15,6 +16,7 @@ public class BlockRozmod extends Block {
 
     public BlockRozmod() {
         super(Material.rock);
+        this.setCreativeTab(CreativeTabRoz.RozTab);
     }
 
     @Override

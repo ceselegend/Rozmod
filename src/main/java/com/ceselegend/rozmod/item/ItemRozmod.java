@@ -1,5 +1,6 @@
 package com.ceselegend.rozmod.item;
 
+import com.ceselegend.rozmod.init.CreativeTabRoz;
 import com.ceselegend.rozmod.reference.Reference;
 
 import cpw.mods.fml.relauncher.Side;
@@ -11,6 +12,7 @@ import net.minecraft.item.ItemStack;
 public class ItemRozmod extends Item {
 	public ItemRozmod() {
 		super();
+		this.setCreativeTab(CreativeTabRoz.RozTab);
 	}
 	
 	@Override
