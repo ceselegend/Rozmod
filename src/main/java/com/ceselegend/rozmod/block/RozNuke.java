@@ -1,7 +1,6 @@
 package com.ceselegend.rozmod.block;
 
 import com.ceselegend.rozmod.entity.RozNukePrimed;
-import com.ceselegend.rozmod.utility.LogHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -69,10 +68,9 @@ public class RozNuke extends BlockRozmod {
     @Override
     public void onBlockDestroyedByExplosion(World world, int posX, int posY, int posZ, Explosion explosion) {
         if (!world.isRemote) {
-            RozNukePrimed entitytntprimed = new RozNukePrimed(world, (double)((float)posX + 0.5F), (double)((float)posY + 0.5F), (double)((float)posZ + 0.5F), explosion.getExplosivePlacedBy());
-            LogHelper.error("Placed");
-            entitytntprimed.fuse = world.rand.nextInt(entitytntprimed.fuse / 4) + entitytntprimed.fuse / 8;
-            world.spawnEntityInWorld(entitytntprimed);
+            RozNukePrimed entityNukePrimed = new RozNukePrimed(world, (double)((float)posX + 0.5F), (double)((float)posY + 0.5F), (double)((float)posZ + 0.5F), explosion.getExplosivePlacedBy());
+            entityNukePrimed.fuse = world.rand.nextInt(entityNukePrimed.fuse / 4) + entityNukePrimed.fuse / 8;
+            world.spawnEntityInWorld(entityNukePrimed);
         }
     }
 
@@ -87,10 +85,10 @@ public class RozNuke extends BlockRozmod {
     public void spawnNukePrimed(World world, int posX, int posY, int posZ, int metaData, EntityLivingBase entity) {
         if (!world.isRemote) {
             if ((metaData & 1) == 1) {
-                RozNukePrimed entitytntprimed = new RozNukePrimed(world, (double)((float)posX + 0.5F), (double)((float)posY + 0.5F), (double)((float)posZ + 0.5F), entity);
-                world.spawnEntityInWorld(entitytntprimed);
+                RozNukePrimed entityNukePrimed = new RozNukePrimed(world, (double)((float)posX + 0.5F), (double)((float)posY + 0.5F), (double)((float)posZ + 0.5F), entity);
+                world.spawnEntityInWorld(entityNukePrimed);
                 // entity, sound, volume, pitch
-                world.playSoundAtEntity(entitytntprimed, "game.tnt.primed", 1.0F, 1.0F);
+                world.playSoundAtEntity(entityNukePrimed, "game.tnt.primed", 1.0F, 1.0F);
             }
         }
     }

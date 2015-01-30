@@ -90,7 +90,7 @@ public class RozNukePrimed extends Entity {
 
     private void explode()
     {
-        float f = 32.0F;
+        float f = 128.0F;
         this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, f, true);
     }
 
