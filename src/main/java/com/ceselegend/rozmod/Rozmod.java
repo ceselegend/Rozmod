@@ -33,15 +33,17 @@ public class Rozmod {
         ModBlocks.init();
 
     	LogHelper.info("Pre-initialization done.");
-    	
+
     }
     
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
     {
-    	LogHelper.info("Initialization done.");
+        proxy.registerRenderers();
+        LogHelper.info("Initialization done.");
     }
-    
+
+
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
