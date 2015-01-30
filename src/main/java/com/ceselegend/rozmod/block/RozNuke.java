@@ -1,13 +1,17 @@
 package com.ceselegend.rozmod.block;
 
 import com.ceselegend.rozmod.entity.RozNukePrimed;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
@@ -16,6 +20,7 @@ import java.util.Random;
 public class RozNuke extends BlockRozmod {
 
     public int fuse;
+    public IIcon[] icons = new IIcon[6];
 
     public RozNuke(int fuse)
     {
@@ -27,6 +32,7 @@ public class RozNuke extends BlockRozmod {
     /**
      * Called whenever the block is added into the world. Args: world, x, y, z
      */
+    @Override
     public void onBlockAdded(World world, int posX, int posY, int posZ) {
         super.onBlockAdded(world, posX, posY, posZ);
 
@@ -40,6 +46,7 @@ public class RozNuke extends BlockRozmod {
      * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed (coordinates passed are
      * their own) Args: x, y, z, neighbor Block
      */
+    @Override
     public void onNeighborBlockChange(World world, int posX, int posY, int posZ, Block neighborBlock) {
         if (world.isBlockIndirectlyGettingPowered(posX, posY, posZ)) {
             this.onBlockDestroyedByPlayer(world, posX, posY, posZ, 1);
@@ -50,13 +57,15 @@ public class RozNuke extends BlockRozmod {
     /**
      * Returns the quantity of items to drop on block destruction.
      */
+    @Override
     public int quantityDropped(Random random) {
-        return 0;
+        return 1;
     }
 
     /**
      * Called upon the block being destroyed by an explosion
      */
+    @Override
     public void onBlockDestroyedByExplosion(World world, int posX, int posY, int posZ, Explosion explosion) {
         if (!world.isRemote) {
             RozNukePrimed entitytntprimed = new RozNukePrimed(world, (double)((float)posX + 0.5F), (double)((float)posY + 0.5F), (double)((float)posZ + 0.5F), explosion.getExplosivePlacedBy());
@@ -68,8 +77,9 @@ public class RozNuke extends BlockRozmod {
     /**
      * Called right before the block is destroyed by a player.  Args: world, x, y, z, metaData
      */
+    @Override
     public void onBlockDestroyedByPlayer(World world, int posX, int posY, int posZ, int metaData) {
-        this.spawnNukePrimed(world, posX, posY, posZ, metaData, (EntityLivingBase) null);
+        this.spawnNukePrimed(world, posX, posY, posZ, metaData, null);
     }
 
     public void spawnNukePrimed(World world, int posX, int posY, int posZ, int metaData, EntityLivingBase entity) {
@@ -86,6 +96,7 @@ public class RozNuke extends BlockRozmod {
     /**
      * Called upon block activation (right click on the block.)
      */
+    @Override
     public boolean onBlockActivated(World world, int posX, int posY, int posZ, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_) {
         if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == Items.flint_and_steel) {
             this.spawnNukePrimed(world, posX, posY, posZ, 1, player);
@@ -101,6 +112,7 @@ public class RozNuke extends BlockRozmod {
     /**
      * Triggered whenever an entity collides with this block (enters into the block). Args: world, x, y, z, entity
      */
+    @Override
     public void onEntityCollidedWithBlock(World world, int posX, int posY, int posZ, Entity entity) {
         if (entity instanceof EntityArrow && !world.isRemote) {
             EntityArrow entityarrow = (EntityArrow)entity;
@@ -115,15 +127,23 @@ public class RozNuke extends BlockRozmod {
     /**
      * Return whether this block can drop from an explosion.
      */
+    @Override
     public boolean canDropFromExplosion(Explosion explosion) {
         return false;
     }
 
-    /*@SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister p_149651_1_)
-    {
-        this.blockIcon = p_149651_1_.registerIcon(this.getTextureName() + "_side");
-        this.field_150116_a = p_149651_1_.registerIcon(this.getTextureName() + "_top");
-        this.field_150115_b = p_149651_1_.registerIcon(this.getTextureName() + "_bottom");
-    }*/
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister register) {
+        for(int i=2;i<6;i++) {
+            icons[i] = register.registerIcon(String.format("%s", getUnwrappedUnlocalizedName(this.getUnlocalizedName())) + "_side");
+        }
+        icons[1] = register.registerIcon(String.format("%s", getUnwrappedUnlocalizedName(this.getUnlocalizedName())) + "_top");
+        icons[0] = register.registerIcon(String.format("%s", getUnwrappedUnlocalizedName(this.getUnlocalizedName())) + "_bottom");
+    }
+
+    @Override
+    public IIcon getIcon(int side, int meta) {
+        return this.icons[side];
+    }
 }
