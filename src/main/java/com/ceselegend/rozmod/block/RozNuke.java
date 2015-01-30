@@ -1,6 +1,7 @@
 package com.ceselegend.rozmod.block;
 
 import com.ceselegend.rozmod.entity.RozNukePrimed;
+import com.ceselegend.rozmod.utility.LogHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
