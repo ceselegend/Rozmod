@@ -7,7 +7,6 @@ import com.ceselegend.rozmod.init.ModItems;
 import com.ceselegend.rozmod.proxy.IProxy;
 import com.ceselegend.rozmod.reference.Reference;
 import com.ceselegend.rozmod.utility.LogHelper;
-
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;

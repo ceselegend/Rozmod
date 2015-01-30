@@ -2,15 +2,18 @@ package com.ceselegend.rozmod.render;
 
 import com.ceselegend.rozmod.entity.RozNukePrimed;
 import com.ceselegend.rozmod.init.ModBlocks;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
+@SideOnly(Side.CLIENT)
 public class RenderRozNukePrimed extends Render {
     private RenderBlocks blockRenderer = new RenderBlocks();
-    private static final ResourceLocation entityTexture = new ResourceLocation("RozNuke_side.png");
+    private static final ResourceLocation entityTexture = new ResourceLocation("rozmod:RozNuke_side");
 
     public RenderRozNukePrimed() {
         this.shadowSize = 0.5F;
