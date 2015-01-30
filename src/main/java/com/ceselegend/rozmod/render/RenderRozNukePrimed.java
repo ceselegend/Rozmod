@@ -1,9 +1,7 @@
 package com.ceselegend.rozmod.render;
 
-
 import com.ceselegend.rozmod.entity.RozNukePrimed;
 import com.ceselegend.rozmod.init.ModBlocks;
-import com.ceselegend.rozmod.utility.LogHelper;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
@@ -14,8 +12,7 @@ public class RenderRozNukePrimed extends Render {
     private RenderBlocks blockRenderer = new RenderBlocks();
     private static final ResourceLocation entityTexture = new ResourceLocation("RozNuke_side.png");
 
-    public RenderRozNukePrimed()
-    {
+    public RenderRozNukePrimed() {
         this.shadowSize = 0.5F;
     }
 
@@ -25,24 +22,19 @@ public class RenderRozNukePrimed extends Render {
      * (Render<T extends Entity) and this method has signature public void func_76986_a(T entity, double d, double d1,
      * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
      */
-    public void doRender(RozNukePrimed p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
-    {
-        LogHelper.info("Render called !");
+    public void doRender(RozNukePrimed nuke, double x, double y, double z, float par5, float par6) {
         GL11.glPushMatrix();
-        GL11.glTranslatef((float)p_76986_2_, (float)p_76986_4_, (float)p_76986_6_);
+        GL11.glTranslatef((float)x, (float)y, (float)z);
         float f2;
 
-        if ((float)p_76986_1_.fuse - p_76986_9_ + 1.0F < 10.0F)
-        {
-            f2 = 1.0F - ((float)p_76986_1_.fuse - p_76986_9_ + 1.0F) / 10.0F;
+        if ((float)nuke.fuse - par6 + 1.0F < 10.0F) {
+            f2 = 1.0F - ((float)nuke.fuse - par6 + 1.0F) / 10.0F;
 
-            if (f2 < 0.0F)
-            {
+            if (f2 < 0.0F) {
                 f2 = 0.0F;
             }
 
-            if (f2 > 1.0F)
-            {
+            if (f2 > 1.0F) {
                 f2 = 1.0F;
             }
 
@@ -52,12 +44,11 @@ public class RenderRozNukePrimed extends Render {
             GL11.glScalef(f3, f3, f3);
         }
 
-        f2 = (1.0F - ((float)p_76986_1_.fuse - p_76986_9_ + 1.0F) / 100.0F) * 0.8F;
-        this.bindEntityTexture(p_76986_1_);
-        this.blockRenderer.renderBlockAsItem(ModBlocks.rozNuke, 0, p_76986_1_.getBrightness(p_76986_9_));
+        f2 = (1.0F - ((float)nuke.fuse - par6 + 1.0F) / 100.0F) * 0.8F;
+        this.bindEntityTexture(nuke);
+        this.blockRenderer.renderBlockAsItem(ModBlocks.rozNuke, 0, nuke.getBrightness(par6));
 
-        if (p_76986_1_.fuse / 5 % 2 == 0)
-        {
+        if (nuke.fuse / 5 % 2 == 0) {
             GL11.glDisable(GL11.GL_TEXTURE_2D);
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glEnable(GL11.GL_BLEND);
@@ -76,17 +67,15 @@ public class RenderRozNukePrimed extends Render {
     /**
      * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
      */
-    protected ResourceLocation getEntityTexture(RozNukePrimed p_110775_1_)
-    {
+    protected ResourceLocation getEntityTexture(RozNukePrimed nuke) {
         return entityTexture;
     }
 
     /**
      * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
      */
-    protected ResourceLocation getEntityTexture(Entity p_110775_1_)
-    {
-        return this.getEntityTexture((RozNukePrimed)p_110775_1_);
+    protected ResourceLocation getEntityTexture(Entity entity) {
+        return this.getEntityTexture((RozNukePrimed)entity);
     }
 
     /**
@@ -95,8 +84,7 @@ public class RenderRozNukePrimed extends Render {
      * (Render<T extends Entity) and this method has signature public void func_76986_a(T entity, double d, double d1,
      * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
      */
-    public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
-    {
-        this.doRender((RozNukePrimed)p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
+    public void doRender(Entity entity, double x, double y, double z, float par5, float par6) {
+        this.doRender((RozNukePrimed)entity, x, y, z, par5, par6);
     }
 }

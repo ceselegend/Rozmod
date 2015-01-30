@@ -33,6 +33,7 @@ public class Rozmod {
     	FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
     	ModItems.init();
         ModBlocks.init();
+        proxy.registerRenderers();
 
     	LogHelper.info("Pre-initialization done.");
 
@@ -41,7 +42,6 @@ public class Rozmod {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
     {
-        proxy.registerRenderers();
 
         // Entity registering
         EntityRegistry.registerGlobalEntityID(RozNukePrimed.class, "rozNukePrimed", EntityRegistry.findGlobalUniqueEntityId());

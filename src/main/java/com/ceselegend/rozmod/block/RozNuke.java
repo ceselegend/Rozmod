@@ -70,6 +70,7 @@ public class RozNuke extends BlockRozmod {
     public void onBlockDestroyedByExplosion(World world, int posX, int posY, int posZ, Explosion explosion) {
         if (!world.isRemote) {
             RozNukePrimed entitytntprimed = new RozNukePrimed(world, (double)((float)posX + 0.5F), (double)((float)posY + 0.5F), (double)((float)posZ + 0.5F), explosion.getExplosivePlacedBy());
+            LogHelper.error("Placed");
             entitytntprimed.fuse = world.rand.nextInt(entitytntprimed.fuse / 4) + entitytntprimed.fuse / 8;
             world.spawnEntityInWorld(entitytntprimed);
         }
