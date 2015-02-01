@@ -1,0 +1,6 @@
+{
+  "nuclear_blast" : {
+    "categorie":"ambient",
+    "sounds":[{"name":"nuclear_blast","stream":false}]
+  }
+}
