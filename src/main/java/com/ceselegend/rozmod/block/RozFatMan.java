@@ -20,7 +20,7 @@ public class RozFatMan extends BlockContainer {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+    public TileEntity createNewTileEntity(World world, int par1) {
         return new TileEntityFatMan();
     }
 

@@ -1,9 +1,11 @@
 package com.ceselegend.rozmod.entity;
 
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-
+import net.minecraft.world.World;
 public class TileEntityFatMan extends TileEntity {
 
     private int fuse;
@@ -40,17 +42,39 @@ public class TileEntityFatMan extends TileEntity {
 
     @Override
     public void updateEntity() {
-        if(!worldObj.isRemote) {
-            if(this.primed && fuse > 0) {
+        if (!worldObj.isRemote) {
+            if (this.primed && fuse > 0) {
                 this.fuse -= 1;
 
-            }else if(fuse == 0){
-                worldObj.setBlockToAir(xCoord,yCoord,zCoord);
-                worldObj.removeTileEntity(xCoord,yCoord,zCoord);
             }
-        }else {
-            if(primed){
+            else if (fuse == 0) {
+                worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+                worldObj.removeTileEntity(xCoord,yCoord,zCoord);
+                this.explode(worldObj, 32, xCoord, yCoord, zCoord);
+            }
+        }
+        else {
+            if(primed) {
                 worldObj.spawnParticle("heart",(double)xCoord+worldObj.rand.nextDouble(),(double)yCoord+1,(double)zCoord+worldObj.rand.nextDouble(),0,0.5,0);
+            }
+        }
+    }
+
+    public void explode(World world, int radius, double posX, double posY, double posZ) {
+        int i,j,k;
+        // Change radius to radius + coords
+        for (i = (int)posX-radius ; i <= (int)posX+radius ; i++) {
+            for (j = (int)posY-radius ; j <= (int)posY+radius ; j++) {
+                for (k = (int)posZ-radius ; k <= (int)posZ+radius ; k++) {
+                    if (StrictMath.sqrt((i - posX) * (i - posX) + (j - posY) * (j - posY) + (k - posZ) * (k - posZ)) <= radius) {
+                        Block block = world.getBlock(i, j, k);
+                        if (block.getMaterial() != Material.air) {
+                            block.dropBlockAsItemWithChance(world, i, j, k, 0, 0.01F, 0);
+                            world.setBlockToAir(i,j,k);
+                        //block.getExplosionResistance(entity);
+                        }
+                    }
+                }
             }
         }
     }
