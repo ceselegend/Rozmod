@@ -3,8 +3,11 @@ package com.ceselegend.rozmod.block;
 import com.ceselegend.rozmod.entity.TileEntityFatMan;
 import com.ceselegend.rozmod.init.CreativeTabRoz;
 import com.ceselegend.rozmod.reference.Reference;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -38,5 +41,11 @@ public class RozFatMan extends BlockContainer {
     @Override
     public int getRenderType() {
         return -1;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister iconRegister) {
+        blockIcon = iconRegister.registerIcon(Reference.MOD_ID+":rozFatMan");
     }
 }

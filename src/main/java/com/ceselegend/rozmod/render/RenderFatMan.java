@@ -13,8 +13,8 @@ public class RenderFatMan extends TileEntitySpecialRenderer {
     private ModelFatMan model;
     private static final ResourceLocation texture = new ResourceLocation(Reference.MOD_ID,"textures/blocks/modelNuke.png");
 
-    public RenderFatMan(){
-        model = new ModelFatMan();
+    public RenderFatMan(ModelFatMan model){
+        this.model = model;
     }
 
     @Override
