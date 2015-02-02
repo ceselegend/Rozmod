@@ -4,9 +4,16 @@ package com.ceselegend.rozmod.entity;
 import com.ceselegend.rozmod.init.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+
+import java.util.List;
+
+
 public class TileEntityFatMan extends TileEntity {
 
     private int fuse;
@@ -67,7 +74,7 @@ public class TileEntityFatMan extends TileEntity {
     @Override
     public boolean receiveClientEvent(int id, int value) {
         if(worldObj.isRemote && id == 1){
-            worldObj.playSound(xCoord,yCoord,zCoord,"rozmod:nuclear_blast",1,0,false);
+            worldObj.playSound(xCoord,yCoord,zCoord,"rozmod:nuclear_blast",10,0,false);
             // Insert particle code here
         }
         else if(worldObj.isRemote && id == 2){
@@ -86,13 +93,34 @@ public class TileEntityFatMan extends TileEntity {
                 for (k = (int)posZ-radius ; k <= (int)posZ+radius ; k++) {
                     if (StrictMath.sqrt((i - posX) * (i - posX) + (j - posY) * (j - posY) + (k - posZ) * (k - posZ)) <= radius) {
                         Block block = world.getBlock(i, j, k);
-                        if (block.getMaterial() != Material.air) {
+                        if (block.getMaterial() != Material.air && block.getBlockHardness(world,(int)posX,(int)posY,(int)posZ) != -1.0F) {
                             block.dropBlockAsItemWithChance(world, i, j, k, 0, 0.01F, 0);
                             world.setBlockToAir(i,j,k);
                         //block.getExplosionResistance(entity);
                         }
+
                     }
                 }
+            }
+        }
+
+        //Damage entities in the blast area
+        radius *= (double)3/2;
+        int x1 = (int)posX-radius-1;
+        int x2 = (int)posX+radius+1;
+        int y1 = (int)posY-radius-1;
+        int y2 = (int)posY+radius+1;
+        int z1 = (int)posZ-radius-1;
+        int z2 = (int)posZ+radius+1;
+        List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(x1,y1,z1,x2,y2,z2));
+        for (Object aList : list) {
+            Entity entity = (Entity) aList;
+            double dist = entity.getDistance(posX, posY, posZ) / (double) radius;
+            if (dist <= 1.0F) {
+                entity.attackEntityFrom(DamageSource.setExplosionSource(null), (float) (radius));
+                entity.motionX += entity.posX - posX;
+                entity.motionY += entity.posY - posY - entity.getEyeHeight();
+                entity.motionZ += entity.posZ - posZ;
             }
         }
     }
