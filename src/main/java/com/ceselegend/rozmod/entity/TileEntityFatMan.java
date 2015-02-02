@@ -18,10 +18,12 @@ public class TileEntityFatMan extends TileEntity {
 
     private int fuse;
     private boolean primed;
+    private String owner;
 
     public TileEntityFatMan() {
         fuse = 100;
         primed = false;
+        owner = "None";
     }
 
     public void setPrimed() {
@@ -31,6 +33,14 @@ public class TileEntityFatMan extends TileEntity {
 
     public boolean getPrimed() {
         return primed;
+    }
+
+    public void setOwner(String owner){
+        this.owner  = owner;
+    }
+
+    public String getOwner(){
+        return this.owner;
     }
 
     @Override
