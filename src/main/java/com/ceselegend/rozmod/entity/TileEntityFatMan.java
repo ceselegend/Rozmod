@@ -1,6 +1,7 @@
 package com.ceselegend.rozmod.entity;
 
 
+import com.ceselegend.rozmod.init.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,6 +19,7 @@ public class TileEntityFatMan extends TileEntity {
 
     public void setPrimed() {
         this.primed = true;
+        worldObj.addBlockEvent(xCoord,yCoord,zCoord,ModBlocks.rozFatMan,2,0);
     }
 
     public boolean getPrimed() {
@@ -43,21 +45,37 @@ public class TileEntityFatMan extends TileEntity {
     @Override
     public void updateEntity() {
         if (!worldObj.isRemote) {
-            if (this.primed && fuse > 0) {
-                this.fuse -= 1;
-
-            }
-            else if (fuse == 0) {
+            if (fuse == 0) {
                 worldObj.setBlockToAir(xCoord, yCoord, zCoord);
                 worldObj.removeTileEntity(xCoord,yCoord,zCoord);
                 this.explode(worldObj, 32, xCoord, yCoord, zCoord);
             }
-        }
-        else {
-            if(primed) {
-                worldObj.spawnParticle("heart",(double)xCoord+worldObj.rand.nextDouble(),(double)yCoord+1,(double)zCoord+worldObj.rand.nextDouble(),0,0.5,0);
+            else if(fuse == 1) {
+                worldObj.addBlockEvent(xCoord,yCoord,zCoord, ModBlocks.rozFatMan,1,0);
+            }
+            if(primed){
+                this.fuse--;
             }
         }
+        else {
+            if (primed) {
+                worldObj.spawnParticle("heart", (double) xCoord + worldObj.rand.nextDouble(), (double) yCoord + 1, (double) zCoord + worldObj.rand.nextDouble(), 0, 0.5, 0);
+            }
+        }
+    }
+
+    @Override
+    public boolean receiveClientEvent(int id, int value) {
+        if(worldObj.isRemote && id == 1){
+            worldObj.playSound(xCoord,yCoord,zCoord,"rozmod:nuclear_blast",1,0,false);
+            // Insert particle code here
+        }
+        else if(worldObj.isRemote && id == 2){
+            if(!primed){
+                this.primed = true;
+            }
+        }
+        return true;
     }
 
     public void explode(World world, int radius, double posX, double posY, double posZ) {
