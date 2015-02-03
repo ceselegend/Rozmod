@@ -19,11 +19,12 @@ public class TileEntityFatMan extends TileEntity {
 
     private int fuse;
     private boolean primed;
-    private String owner;
-    private int radius = 32;
-    public List<ChunkPosition> affectedBlockPositions = new ArrayList<ChunkPosition>();
+        private String owner;
+        private int radius = 32;
+        private double forceInit = 64.0D;
+        public List<ChunkPosition> affectedBlockPositions = new ArrayList<ChunkPosition>();
 
-    public TileEntityFatMan() {
+        public TileEntityFatMan() {
         fuse = 100;
         primed = false;
         owner = null;
@@ -112,6 +113,7 @@ public class TileEntityFatMan extends TileEntity {
         Iterator iterator = this.affectedBlockPositions.iterator();
         ChunkPosition chunkPosition;
         int i,j,k;
+        double force;
         Block block;
         while (iterator.hasNext()) {
             chunkPosition = (ChunkPosition) iterator.next();
@@ -119,7 +121,8 @@ public class TileEntityFatMan extends TileEntity {
             j = chunkPosition.chunkPosY;
             k = chunkPosition.chunkPosZ;
             block = this.worldObj.getBlock(i, j, k);
-            if (block.getMaterial() != Material.air && block.getBlockHardness(world, xCoord, yCoord, zCoord) != -1.0F) {
+            force = forceInit - this.getDistanceFrom(i, j, k)*0.3D*worldObj.rand.nextInt(10)/10.0D;
+            if (block.getMaterial() != Material.air && force > block.getBlockHardness(worldObj, i, j, k)) {
                 block.dropBlockAsItemWithChance(world, i, j, k, 0, 0.01F, 0);
                 world.setBlockToAir(i, j, k);
             }
@@ -151,7 +154,7 @@ public class TileEntityFatMan extends TileEntity {
         for (i = xCoord - radius; i <= xCoord + radius; i++) {
             for (j = yCoord - radius; j <= yCoord + radius; j++) {
                 for (k = zCoord - radius; k <= zCoord + radius; k++) {
-                    if (StrictMath.sqrt((i - xCoord) * (i - xCoord) + (j - yCoord) * (j - yCoord) + (k - zCoord) * (k - zCoord)) <= radius) {
+                    if (StrictMath.sqrt((i - xCoord) * (i - xCoord) + (j - yCoord) * (j - yCoord) + (k - zCoord) * (k - zCoord)) <= radius + worldObj.rand.nextInt(5)) {
                         this.affectedBlockPositions.add(new ChunkPosition(i, j, k));
                     }
                 }
