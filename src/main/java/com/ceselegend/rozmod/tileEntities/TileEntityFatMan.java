@@ -1,16 +1,15 @@
-package com.ceselegend.rozmod.entity;
+package com.ceselegend.rozmod.tileEntities;
 
+import com.ceselegend.rozmod.handler.ConfigurationHandler;
 import com.ceselegend.rozmod.handler.RozExplosion;
 import com.ceselegend.rozmod.init.ModBlocks;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.ChunkPosition;
 
 import java.util.Iterator;
 
-public class TileEntityFatMan extends TileEntity {
-    private boolean primed;
-    private String owner;
+public class TileEntityFatMan extends TileEntityBomb {
+
+    private RozExplosion explosion = new RozExplosion();
 
     public TileEntityFatMan() {
         super();
@@ -18,55 +17,26 @@ public class TileEntityFatMan extends TileEntity {
         explosion.forceInit = ConfigurationHandler.rozFatMan_forceInit;
     }
 
-    public RozExplosion explosion = new RozExplosion();
-
-    public void setPrimed() {
-        this.primed = true;
-        worldObj.addBlockEvent(xCoord,yCoord,zCoord,ModBlocks.rozFatMan,2,0);
-        explosion.getAffectedBlocks(worldObj, xCoord, yCoord, zCoord);
-    }
-
-    public boolean getPrimed() {
-        return primed;
-    }
-
-    public void setOwner(String owner){
-        this.owner  = owner;
-    }
-
-    public String getOwner(){
-        return this.owner;
-    }
-
     @Override
-    public void writeToNBT(NBTTagCompound coumpound) {
-        super.writeToNBT(coumpound);
+        public void setPrimed() {
+            this.primed = true;
+            worldObj.addBlockEvent(xCoord,yCoord,zCoord,ModBlocks.rozFatMan,2,0);
+            explosion.getAffectedBlocks(worldObj, xCoord, yCoord, zCoord);
+        }
 
-        coumpound.setShort("fuse",(short)explosion.fuse);
-        coumpound.setBoolean("primed",primed);
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound coumpond) {
-        super.readFromNBT(coumpond);
-
-        explosion.fuse = coumpond.getShort("fuse");
-        primed = coumpond.getBoolean("primed");
-    }
-
-    @Override
-    public void updateEntity() {
+        @Override
+        public void updateEntity() {
         if (!worldObj.isRemote) {
-            if (explosion.fuse == 0) {
+            if (fuse == 0) {
                 worldObj.setBlockToAir(xCoord, yCoord, zCoord);
                 worldObj.removeTileEntity(xCoord,yCoord,zCoord);
                 explosion.explode(worldObj, this, xCoord, yCoord, zCoord);
             }
-            else if(explosion.fuse == 1) {
+            else if(fuse == 1) {
                 worldObj.addBlockEvent(xCoord,yCoord,zCoord, ModBlocks.rozFatMan,1,0);
             }
             if(primed){
-                this.explosion.fuse--;
+                this.fuse--;
             }
         }
         else {
@@ -98,8 +68,4 @@ public class TileEntityFatMan extends TileEntity {
         }
         return true;
     }
-
-
-
-
 }
