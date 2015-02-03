@@ -16,7 +16,6 @@ import java.util.List;
 public class RozExplosion {
     public int radius;
     public double forceInit;
-    public int fuse;
     public List<ChunkPosition> affectedBlockPositions = new ArrayList<ChunkPosition>();
 
     public void getAffectedBlocks(World world, int xCoord, int yCoord, int zCoord) {

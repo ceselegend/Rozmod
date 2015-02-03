@@ -1,6 +1,5 @@
 package com.ceselegend.rozmod.entity;
 
-import com.ceselegend.rozmod.handler.ConfigurationHandler;
 import com.ceselegend.rozmod.handler.RozExplosion;
 import com.ceselegend.rozmod.init.ModBlocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,11 +13,9 @@ public class TileEntityFatMan extends TileEntity {
     private String owner;
 
     public TileEntityFatMan() {
+        super();
         explosion.radius = ConfigurationHandler.rozFatMan_radius;
         explosion.forceInit = ConfigurationHandler.rozFatMan_forceInit;
-        explosion.fuse = ConfigurationHandler.rozFatMan_fuse;
-        primed = false;
-        owner = null;
     }
 
     public RozExplosion explosion = new RozExplosion();
