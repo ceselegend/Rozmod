@@ -1,6 +1,6 @@
 package com.ceselegend.rozmod.proxy;
 
-import com.ceselegend.rozmod.entity.TileEntityFatMan;
+import com.ceselegend.rozmod.tileEntities.TileEntityFatMan;
 import com.ceselegend.rozmod.init.ModBlocks;
 import com.ceselegend.rozmod.render.ModelFatMan;
 import com.ceselegend.rozmod.render.RenderFatMan;

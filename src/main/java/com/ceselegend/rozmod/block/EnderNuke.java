@@ -1,6 +1,7 @@
 package com.ceselegend.rozmod.block;
 
-import com.ceselegend.rozmod.tileEntities.TileEntityFatMan;
+
+import com.ceselegend.rozmod.tileEntities.TileEntityEnderNuke;
 import com.ceselegend.rozmod.init.CreativeTabRoz;
 import com.ceselegend.rozmod.reference.Reference;
 import cpw.mods.fml.relauncher.Side;
@@ -14,21 +15,27 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class RozFatMan extends BlockContainer {
+public class EnderNuke extends BlockContainer{
 
-    public RozFatMan() {
+    public EnderNuke(){
         super(Material.anvil);
         this.setCreativeTab(CreativeTabRoz.RozTab);
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int par1) {
-        return new TileEntityFatMan();
+    public TileEntity createNewTileEntity(World world, int p_149915_2_) {
+        return new TileEntityEnderNuke();
     }
 
     @Override
     public String getUnlocalizedName() {
-        return String.format("tile.%s%s", Reference.MOD_ID.toLowerCase() + ":","rozFatMan" );
+        return String.format("tile.%s%s", Reference.MOD_ID.toLowerCase() + ":","enderNuke" );
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister iconRegister) {
+        blockIcon = iconRegister.registerIcon(Reference.MOD_ID+":enderNuke");
     }
 
     @Override
@@ -47,23 +54,17 @@ public class RozFatMan extends BlockContainer {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister) {
-        blockIcon = iconRegister.registerIcon(Reference.MOD_ID+":rozFatMan");
-    }
-
-    @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack items) {
         if(entity instanceof EntityPlayer){
             EntityPlayer player = (EntityPlayer) entity;
-            TileEntityFatMan bomb = (TileEntityFatMan) world.getTileEntity(x,y,z);
+            TileEntityEnderNuke bomb = (TileEntityEnderNuke) world.getTileEntity(x,y,z);
             bomb.setOwner(player.getDisplayName());
         }
     }
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_) {
-        TileEntityFatMan bomb = (TileEntityFatMan) world.getTileEntity(x,y,z);
+        TileEntityEnderNuke bomb = (TileEntityEnderNuke) world.getTileEntity(x,y,z);
         if(!bomb.getPrimed() && player.getDisplayName().equals(bomb.getOwner())) {
             bomb.setPrimed();
             return true;
