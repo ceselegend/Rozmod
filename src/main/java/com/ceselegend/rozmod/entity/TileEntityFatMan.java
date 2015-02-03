@@ -1,39 +1,31 @@
 package com.ceselegend.rozmod.entity;
 
+import com.ceselegend.rozmod.handler.Explosion;
 import com.ceselegend.rozmod.init.ModBlocks;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.ChunkPosition;
-import net.minecraft.world.World;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 public class TileEntityFatMan extends TileEntity {
-
-    private int fuse;
     private boolean primed;
-        private String owner;
-        private int radius = 32;
-        private double forceInit = 64.0D;
-        public List<ChunkPosition> affectedBlockPositions = new ArrayList<ChunkPosition>();
+    private String owner;
 
-        public TileEntityFatMan() {
-        fuse = 100;
+    public TileEntityFatMan() {
+        explosion.radius = 32;
+        explosion.forceInit = 64.0D;
+        explosion.fuse = 100;
         primed = false;
         owner = null;
     }
 
+    public Explosion explosion = new Explosion();
+
     public void setPrimed() {
         this.primed = true;
         worldObj.addBlockEvent(xCoord,yCoord,zCoord,ModBlocks.rozFatMan,2,0);
-        getAffectedBlocks();
+        explosion.getAffectedBlocks(worldObj, xCoord, yCoord, zCoord);
     }
 
     public boolean getPrimed() {
@@ -52,7 +44,7 @@ public class TileEntityFatMan extends TileEntity {
     public void writeToNBT(NBTTagCompound coumpound) {
         super.writeToNBT(coumpound);
 
-        coumpound.setShort("fuse",(short)fuse);
+        coumpound.setShort("fuse",(short)explosion.fuse);
         coumpound.setBoolean("primed",primed);
     }
 
@@ -60,23 +52,23 @@ public class TileEntityFatMan extends TileEntity {
     public void readFromNBT(NBTTagCompound coumpond) {
         super.readFromNBT(coumpond);
 
-        fuse = coumpond.getShort("fuse");
+        explosion.fuse = coumpond.getShort("fuse");
         primed = coumpond.getBoolean("primed");
     }
 
     @Override
     public void updateEntity() {
         if (!worldObj.isRemote) {
-            if (fuse == 0) {
+            if (explosion.fuse == 0) {
                 worldObj.setBlockToAir(xCoord, yCoord, zCoord);
                 worldObj.removeTileEntity(xCoord,yCoord,zCoord);
-                this.explode(worldObj);
+                explosion.explode(worldObj, this, xCoord, yCoord, zCoord);
             }
-            else if(fuse == 1) {
+            else if(explosion.fuse == 1) {
                 worldObj.addBlockEvent(xCoord,yCoord,zCoord, ModBlocks.rozFatMan,1,0);
             }
             if(primed){
-                this.fuse--;
+                this.explosion.fuse--;
             }
         }
         else {
@@ -91,7 +83,7 @@ public class TileEntityFatMan extends TileEntity {
         if(worldObj.isRemote && id == 1) {
             worldObj.playSound(xCoord, yCoord, zCoord, "rozmod:nuclear_blast", 10, 0, false);
             int i,j,k;
-            Iterator iterator = this.affectedBlockPositions.iterator();
+            Iterator iterator = explosion.affectedBlockPositions.iterator();
             ChunkPosition chunkPosition;
             while (iterator.hasNext()) {
                 chunkPosition = (ChunkPosition) iterator.next();
@@ -109,56 +101,7 @@ public class TileEntityFatMan extends TileEntity {
         return true;
     }
 
-    public void explode(World world) {
-        Iterator iterator = this.affectedBlockPositions.iterator();
-        ChunkPosition chunkPosition;
-        int i,j,k;
-        double force;
-        Block block;
-        while (iterator.hasNext()) {
-            chunkPosition = (ChunkPosition) iterator.next();
-            i = chunkPosition.chunkPosX;
-            j = chunkPosition.chunkPosY;
-            k = chunkPosition.chunkPosZ;
-            block = this.worldObj.getBlock(i, j, k);
-            force = forceInit - this.getDistanceFrom(i, j, k)*0.3D*worldObj.rand.nextInt(10)/10.0D;
-            if (block.getMaterial() != Material.air && force > block.getBlockHardness(worldObj, i, j, k)) {
-                block.dropBlockAsItemWithChance(world, i, j, k, 0, 0.01F, 0);
-                world.setBlockToAir(i, j, k);
-            }
-        }
 
-        //Damage entities in the blast area
-        radius *= (double)3/2;
-        int x1 = xCoord-radius-1;
-        int x2 = xCoord+radius+1;
-        int y1 = yCoord-radius-1;
-        int y2 = yCoord+radius+1;
-        int z1 = zCoord-radius-1;
-        int z2 = zCoord+radius+1;
-        List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(x1,y1,z1,x2,y2,z2));
-        for (Object aList : list) {
-            Entity entity = (Entity) aList;
-            double dist = entity.getDistance(xCoord, yCoord, zCoord) / (double) radius;
-            if (dist <= 1.0F) {
-                entity.attackEntityFrom(DamageSource.setExplosionSource(null), (float) (radius));
-                entity.motionX += entity.posX - xCoord;
-                entity.motionY += entity.posY - yCoord - entity.getEyeHeight();
-                entity.motionZ += entity.posZ - zCoord;
-            }
-        }
-    }
 
-    public void getAffectedBlocks() {
-        int i, j, k;
-        for (i = xCoord - radius; i <= xCoord + radius; i++) {
-            for (j = yCoord - radius; j <= yCoord + radius; j++) {
-                for (k = zCoord - radius; k <= zCoord + radius; k++) {
-                    if (StrictMath.sqrt((i - xCoord) * (i - xCoord) + (j - yCoord) * (j - yCoord) + (k - zCoord) * (k - zCoord)) <= radius + worldObj.rand.nextInt(5)) {
-                        this.affectedBlockPositions.add(new ChunkPosition(i, j, k));
-                    }
-                }
-            }
-        }
-    }
+
 }

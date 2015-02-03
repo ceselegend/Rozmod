@@ -1,6 +1,5 @@
 package com.ceselegend.rozmod;
 
-import com.ceselegend.rozmod.entity.RozNukePrimed;
 import com.ceselegend.rozmod.entity.TileEntityFatMan;
 import com.ceselegend.rozmod.handler.ConfigurationHandler;
 import com.ceselegend.rozmod.init.ModBlocks;
@@ -14,7 +13,6 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = Reference.MOD_ID, version = Reference.VERSION, name = Reference.MOD_NAME, guiFactory = Reference.GUI_FACTORY_CLASS)
@@ -45,8 +43,6 @@ public class Rozmod {
     {
 
         // Entity registering
-        EntityRegistry.registerGlobalEntityID(RozNukePrimed.class, "rozNukePrimed", EntityRegistry.findGlobalUniqueEntityId());
-        EntityRegistry.registerModEntity(RozNukePrimed.class,"rozNukePrimed",1,this,128,1,false);
         GameRegistry.registerTileEntity(TileEntityFatMan.class,"TileEntityFatMan");
 
         LogHelper.info("Initialization done.");
