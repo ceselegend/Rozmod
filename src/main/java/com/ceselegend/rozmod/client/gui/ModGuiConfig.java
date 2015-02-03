@@ -1,6 +1,5 @@
 package com.ceselegend.rozmod.client.gui;
 
-import com.ceselegend.rozmod.Rozmod;
 import com.ceselegend.rozmod.handler.ConfigurationHandler;
 import com.ceselegend.rozmod.reference.Reference;
 import cpw.mods.fml.client.config.GuiConfig;
