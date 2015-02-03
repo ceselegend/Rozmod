@@ -1,6 +1,6 @@
 package com.ceselegend.rozmod.entity;
 
-import com.ceselegend.rozmod.handler.Explosion;
+import com.ceselegend.rozmod.handler.RozExplosion;
 import com.ceselegend.rozmod.init.ModBlocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -20,7 +20,7 @@ public class TileEntityFatMan extends TileEntity {
         owner = null;
     }
 
-    public Explosion explosion = new Explosion();
+    public RozExplosion explosion = new RozExplosion();
 
     public void setPrimed() {
         this.primed = true;
