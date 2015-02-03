@@ -1,5 +1,6 @@
 package com.ceselegend.rozmod;
 
+import com.ceselegend.rozmod.tileEntities.TileEntityEnderNuke;
 import com.ceselegend.rozmod.tileEntities.TileEntityFatMan;
 import com.ceselegend.rozmod.handler.ConfigurationHandler;
 import com.ceselegend.rozmod.init.ModBlocks;
@@ -44,6 +45,7 @@ public class Rozmod {
 
         // Entity registering
         GameRegistry.registerTileEntity(TileEntityFatMan.class,"TileEntityFatMan");
+        GameRegistry.registerTileEntity(TileEntityEnderNuke.class,"TileEntityEnderNuke");
 
         LogHelper.info("Initialization done.");
     }
