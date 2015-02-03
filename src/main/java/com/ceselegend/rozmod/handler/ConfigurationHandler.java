@@ -43,9 +43,9 @@ public class ConfigurationHandler {
         rozFatMan_radius = configuration.getInt("RozFatManRadius", confRozFatMan.getQualifiedName(), 32, 0, 256, "Radius of explosion");
         rozFatMan_forceInit = configuration.getFloat("RozFatManForceInit", Configuration.CATEGORY_GENERAL, 64, 0, 17000000, "Initial explosion force");
         rozFatMan_fuse = configuration.getInt("RozFatManFuse", Configuration.CATEGORY_GENERAL, 100 , 1, 72000, "Fuse time");
-        rozFatMan_edgeNoise = configuration.getInt("RozFatManNoise", Configuration.CATEGORY_GENERAL, 5 , 0, 256, "Noise factor of explosion edge (increase explosion radius)");
+        rozFatMan_edgeNoise = configuration.getInt("RozFatManNoise", Configuration.CATEGORY_GENERAL, 5 , 1, 256, "Noise factor of explosion edge (increase explosion radius)");
         rozFatMan_attenuationPerBlock = configuration.getFloat("RozFatManAttenuation", Configuration.CATEGORY_GENERAL, 0.3F, 0, 17000000.0F, "Attenuation of explosion per block");
-        rozFatMan_attenuationRandomFactor = configuration.getInt("RozFatManAttenuationRandomFactor", Configuration.CATEGORY_GENERAL, 10, 1, 256, "Random factor of attenuation");
+        rozFatMan_attenuationRandomFactor = configuration.getInt("RozFatManAttenuationRandomFactor", Configuration.CATEGORY_GENERAL, 10, 1, 1000, "Random factor of attenuation");
         rozFatMan_dropRate = configuration.getFloat("RozFatManDropRate", Configuration.CATEGORY_GENERAL, 0.05F , 0.0F, 1.0F, "Drop rate of blocks affected by explosion");
 
         if (configuration.hasChanged()) {

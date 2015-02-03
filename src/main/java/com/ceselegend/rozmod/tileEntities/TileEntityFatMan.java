@@ -15,6 +15,11 @@ public class TileEntityFatMan extends TileEntityBomb {
         super();
         explosion.radius = ConfigurationHandler.rozFatMan_radius;
         explosion.forceInit = ConfigurationHandler.rozFatMan_forceInit;
+        explosion.attenuationPerBlock = ConfigurationHandler.rozFatMan_attenuationPerBlock;
+        explosion.attenuationRandomFactor = ConfigurationHandler.rozFatMan_attenuationRandomFactor;
+        explosion.itemDropRate = ConfigurationHandler.rozFatMan_dropRate;
+        explosion.edgeNoise = ConfigurationHandler.rozFatMan_edgeNoise;
+        this.fuse = ConfigurationHandler.rozFatMan_fuse;
     }
 
     @Override

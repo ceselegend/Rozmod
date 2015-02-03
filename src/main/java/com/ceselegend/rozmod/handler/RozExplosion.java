@@ -16,6 +16,10 @@ import java.util.List;
 public class RozExplosion {
     public int radius;
     public double forceInit;
+    public double attenuationPerBlock;
+    public double attenuationRandomFactor;
+    public int edgeNoise;
+    public float itemDropRate;
     public List<ChunkPosition> affectedBlockPositions = new ArrayList<ChunkPosition>();
 
     public void getAffectedBlocks(World world, int xCoord, int yCoord, int zCoord) {
@@ -23,7 +27,7 @@ public class RozExplosion {
         for (i = xCoord - radius; i <= xCoord + radius; i++) {
             for (j = yCoord - radius; j <= yCoord + radius; j++) {
                 for (k = zCoord - radius; k <= zCoord + radius; k++) {
-                    if (StrictMath.sqrt((i - xCoord) * (i - xCoord) + (j - yCoord) * (j - yCoord) + (k - zCoord) * (k - zCoord)) <= radius + world.rand.nextInt(5)) {
+                    if (StrictMath.sqrt((i - xCoord) * (i - xCoord) + (j - yCoord) * (j - yCoord) + (k - zCoord) * (k - zCoord)) <= radius + world.rand.nextInt(edgeNoise)) {
                         this.affectedBlockPositions.add(new ChunkPosition(i, j, k));
                     }
                 }
@@ -43,9 +47,9 @@ public class RozExplosion {
             j = chunkPosition.chunkPosY;
             k = chunkPosition.chunkPosZ;
             block = world.getBlock(i, j, k);
-            force = this.forceInit - tileEntity.getDistanceFrom(i, j, k)*0.3D*world.rand.nextInt(10)/10.0D;
+            force = this.forceInit - tileEntity.getDistanceFrom(i, j, k)*attenuationPerBlock*world.rand.nextInt(10)/attenuationRandomFactor;
             if (block.getMaterial() != Material.air && force > block.getBlockHardness(world, i, j, k)) {
-                block.dropBlockAsItemWithChance(world, i, j, k, 0, 0.05F, 0);
+                block.dropBlockAsItemWithChance(world, i, j, k, 0, itemDropRate, 0);
                 world.setBlockToAir(i, j, k);
             }
         }
