@@ -13,7 +13,7 @@ public class ConfigurationHandler {
 
 	public static Configuration configuration;
 
-    public static ConfigCategory confRozFatMan = new ConfigCategory("rozFatMan");
+    public static ConfigCategory confRozFatMan = new ConfigCategory("rozfatman");
 
     // confRozFatMan
     public static int rozFatMan_radius;
@@ -40,7 +40,7 @@ public class ConfigurationHandler {
     }
 
     private static void loadConfiguration() {
-        rozFatMan_radius = configuration.getInt("RozFatManRadius", confRozFatMan.getQualifiedName(), 32, 0, 256, "Radius of explosion");
+        rozFatMan_radius = configuration.getInt("RozFatManRadius", confRozFatMan.getName(), 32, 0, 256, "Radius of explosion");
         rozFatMan_forceInit = configuration.getFloat("RozFatManForceInit", Configuration.CATEGORY_GENERAL, 64, 0, 17000000, "Initial explosion force");
         rozFatMan_fuse = configuration.getInt("RozFatManFuse", Configuration.CATEGORY_GENERAL, 100 , 1, 72000, "Fuse time");
         rozFatMan_edgeNoise = configuration.getInt("RozFatManNoise", Configuration.CATEGORY_GENERAL, 5 , 1, 256, "Noise factor of explosion edge (increase explosion radius)");
