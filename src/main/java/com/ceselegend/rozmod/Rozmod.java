@@ -35,7 +35,6 @@ public class Rozmod {
     	ModItems.init();
         ModBlocks.init();
         proxy.registerRenderers();
-        GameRegistry.registerTileEntity(TileEntityFatMan.class,"TileEntityFatMan");
 
     	LogHelper.info("Pre-initialization done.");
 
@@ -48,6 +47,7 @@ public class Rozmod {
         // Entity registering
         EntityRegistry.registerGlobalEntityID(RozNukePrimed.class, "rozNukePrimed", EntityRegistry.findGlobalUniqueEntityId());
         EntityRegistry.registerModEntity(RozNukePrimed.class,"rozNukePrimed",1,this,128,1,false);
+        GameRegistry.registerTileEntity(TileEntityFatMan.class,"TileEntityFatMan");
 
         LogHelper.info("Initialization done.");
     }
