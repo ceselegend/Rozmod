@@ -4,6 +4,10 @@ package com.ceselegend.rozmod.tileEntities;
 import com.ceselegend.rozmod.handler.ConfigurationHandler;
 import com.ceselegend.rozmod.handler.RozExplosion;
 import com.ceselegend.rozmod.init.ModBlocks;
+import net.minecraft.block.Block;
+import net.minecraft.world.ChunkPosition;
+
+import java.util.Iterator;
 
 public class TileEntityEnderNuke extends TileEntityBomb{
 
@@ -27,8 +31,7 @@ public class TileEntityEnderNuke extends TileEntityBomb{
     public void setPrimed() {
         this.primed = true;
         worldObj.addBlockEvent(xCoord,yCoord,zCoord,ModBlocks.enderNuke,2,0);
-        //TODO fix the crash with getAffectedBlocks (at rand.getNextInt(n) n must be positive)
-       // explosion.getAffectedBlocks(worldObj,xCoord,yCoord,zCoord);
+       explosion.getAffectedBlocks(worldObj,xCoord,yCoord,zCoord);
     }
 
     @Override
@@ -72,6 +75,19 @@ public class TileEntityEnderNuke extends TileEntityBomb{
     }
 
     public void doExplosion(){
+        Iterator iterator = explosion.affectedBlockPositions.iterator();
+        ChunkPosition chunkPosition;
+        Block currentBlock;
+        int x,y,z;
+        while (iterator.hasNext()) {
+            chunkPosition = (ChunkPosition) iterator.next();
+            x = chunkPosition.chunkPosX;
+            y = chunkPosition.chunkPosY;
+            z = chunkPosition.chunkPosZ;
+            currentBlock = worldObj.getBlock(x,y,z);
+            worldObj.setBlockToAir(x,y,z);
+            worldObj.setBlock(x + worldObj.rand.nextInt(explosion.radius), y + worldObj.rand.nextInt(explosion.radius), z + worldObj.rand.nextInt(explosion.radius), currentBlock);
+        }
 
     }
 }

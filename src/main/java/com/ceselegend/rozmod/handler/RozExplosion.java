@@ -18,7 +18,7 @@ public class RozExplosion {
     public double forceInit;
     public double attenuationPerBlock;
     public double attenuationRandomFactor;
-    public int edgeNoise;
+    public int edgeNoise=1;
     public float itemDropRate;
     public List<ChunkPosition> affectedBlockPositions = new ArrayList<ChunkPosition>();
 
