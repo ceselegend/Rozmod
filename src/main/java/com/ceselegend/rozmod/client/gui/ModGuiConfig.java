@@ -7,7 +7,6 @@ import cpw.mods.fml.client.config.GuiConfig;
 import cpw.mods.fml.client.config.IConfigElement;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.ConfigElement;
-import net.minecraftforge.common.config.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +20,8 @@ public class ModGuiConfig extends GuiConfig {
         List<IConfigElement> list = new ArrayList<IConfigElement>();
 
         //Add categories to config GUI
-        list.add(new ConfigElement(ConfigurationHandler.confRozFatMan));
-        list.add(new ConfigElement(ConfigurationHandler.configuration.getCategory(Configuration.CATEGORY_GENERAL)));
+        list.add(new ConfigElement(ConfigurationHandler.configuration.getCategory(ConfigurationHandler.confRozFatMan.getName())));
+        list.add(new ConfigElement(ConfigurationHandler.configuration.getCategory(ConfigurationHandler.confEnderNuke.getName())));
 
         return list;
     }

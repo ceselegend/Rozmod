@@ -1,11 +1,9 @@
 package com.ceselegend.rozmod.tileEntities;
 
 
+import com.ceselegend.rozmod.handler.ConfigurationHandler;
 import com.ceselegend.rozmod.handler.RozExplosion;
 import com.ceselegend.rozmod.init.ModBlocks;
-import net.minecraft.world.ChunkPosition;
-
-import java.util.Iterator;
 
 public class TileEntityEnderNuke extends TileEntityBomb{
 
@@ -17,7 +15,8 @@ public class TileEntityEnderNuke extends TileEntityBomb{
 
     public TileEntityEnderNuke(){
         super();
-        explosion.radius = 32;
+        explosion.radius = ConfigurationHandler.enderNuke_radius;
+        this.fuse = ConfigurationHandler.enderNuke_fuse;
         coreRotation = 0F;
         red =0.0F;
         green = 0F;
@@ -50,10 +49,10 @@ public class TileEntityEnderNuke extends TileEntityBomb{
             if (primed) {
                 worldObj.spawnParticle("portal", (double) xCoord, (double) yCoord + 1, (double) zCoord, 0, 0.5, 0);
             }
-            coreRotation += 0.02F;
-            red += 0.02F;
-            blue += 0.04F;
-            green += 0.01F;
+            coreRotation += ConfigurationHandler.enderNuke_coreRotation;
+            red += ConfigurationHandler.enderNuke_redRotation;
+            blue += ConfigurationHandler.enderNuke_blueRotation;
+            green += ConfigurationHandler.enderNuke_greenRotation;
         }
     }
 
