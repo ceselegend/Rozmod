@@ -11,11 +11,17 @@ public class TileEntityEnderNuke extends TileEntityBomb{
 
     private RozExplosion explosion = new RozExplosion();
     public float coreRotation;
+    public float red;
+    public float blue;
+    public float green;
 
     public TileEntityEnderNuke(){
         super();
         explosion.radius = 32;
         coreRotation = 0F;
+        red =0.0F;
+        green = 0F;
+        blue = 0F;
     }
 
     @Override
@@ -45,6 +51,9 @@ public class TileEntityEnderNuke extends TileEntityBomb{
                 worldObj.spawnParticle("portal", (double) xCoord, (double) yCoord + 1, (double) zCoord, 0, 0.5, 0);
             }
             coreRotation += 0.02F;
+            red += 0.02F;
+            blue += 0.04F;
+            green += 0.01F;
         }
     }
 

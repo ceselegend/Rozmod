@@ -7,17 +7,14 @@ import org.lwjgl.opengl.GL11;
 
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class ModelEnderNuke extends ModelBase{
 
     private ArrayList<ModelRenderer> parts;
     private ModelRenderer sides;
     private ModelRenderer core;
-    private Random rand;
 
     public ModelEnderNuke() {
-        rand = new Random();
         parts = new ArrayList<ModelRenderer>();
         textureWidth = 1024;
         textureHeight = 1024;
@@ -42,7 +39,7 @@ public class ModelEnderNuke extends ModelBase{
         core.rotateAngleZ = (float)Math.PI/4;
     }
 
-    public void render(float coreRotation,float mult) {
+    public void render(float coreRotation,float red,float green, float blue,float mult) {
         for(ModelRenderer part : parts){
             part.render(mult);
         }
@@ -50,7 +47,8 @@ public class ModelEnderNuke extends ModelBase{
         GL11.glColor4f(1F,1F,1F,0.5F);
         sides.rotateAngleY=coreRotation*3;
         sides.render(mult);
-        GL11.glColor4f(1F,1F,1F,1F);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glColor3d(Math.cos(red) * Math.cos(red), Math.cos(green)* Math.cos(green), Math.cos(blue)*Math.cos(blue));
         GL11.glRotatef(coreRotation*(180/3),0,1,0);
         core.render(mult);
     }
