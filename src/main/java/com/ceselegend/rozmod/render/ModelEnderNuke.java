@@ -39,7 +39,7 @@ public class ModelEnderNuke extends ModelBase{
         core.rotateAngleZ = (float)Math.PI/4;
     }
 
-    public void render(float coreRotation,float red,float green, float blue,float mult) {
+    public void render(float coreRotation,float red,float green, float blue,boolean primed,float mult) {
         for(ModelRenderer part : parts){
             part.render(mult);
         }
@@ -50,9 +50,16 @@ public class ModelEnderNuke extends ModelBase{
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glColor3d(Math.cos(3*red+0.5) * Math.cos(3*red+0.5), 0.2, 0.6);
         bottom.render(mult);
-        GL11.glColor3d(Math.cos(red) * Math.cos(red), Math.cos(green) * Math.cos(green), Math.cos(blue) * Math.cos(blue));
-        GL11.glRotatef(coreRotation * (180 / 3), 0, 1, 0);
-        core.setRotationPoint(0,(float)Math.cos(5*coreRotation)*10,0);
+        if(!primed){
+            GL11.glColor3d(Math.cos(red) * Math.cos(red), Math.cos(green) * Math.cos(green), Math.cos(blue) * Math.cos(blue));
+            GL11.glRotatef(coreRotation * (180 / 3), 0, 1, 0);
+            core.setRotationPoint(0,(float)Math.cos(5*coreRotation)*10,0);
+        }
+        else {
+            GL11.glColor3d(Math.cos(10*red) * Math.cos(10*red),0.1, 0.1);
+            GL11.glRotatef(5*coreRotation * (180 / 3), 0, 1, 0);
+            core.setRotationPoint(0,(float)Math.cos(5*5*coreRotation)*10,0);
+        }
         core.render(mult);
     }
 }

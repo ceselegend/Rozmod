@@ -26,7 +26,7 @@ public class RenderEnderNuke extends TileEntitySpecialRenderer{
         GL11.glScalef(-1F,-1F,1F);
 
         Minecraft.getMinecraft().renderEngine.bindTexture(texture);
-        model.render(enderNuke.coreRotation,enderNuke.red,enderNuke.green,enderNuke.blue,0.005F);
+        model.render(enderNuke.coreRotation,enderNuke.red,enderNuke.green,enderNuke.blue,enderNuke.getPrimed(),0.005F);
 
         GL11.glPopMatrix();
     }

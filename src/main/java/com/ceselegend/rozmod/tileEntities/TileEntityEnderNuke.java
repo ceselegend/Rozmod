@@ -27,7 +27,8 @@ public class TileEntityEnderNuke extends TileEntityBomb{
     public void setPrimed() {
         this.primed = true;
         worldObj.addBlockEvent(xCoord,yCoord,zCoord,ModBlocks.enderNuke,2,0);
-        explosion.getAffectedBlocks(worldObj,xCoord,yCoord,zCoord);
+        //TODO fix the crash with getAffectedBlocks (at rand.getNextInt(n) n must be positive)
+       // explosion.getAffectedBlocks(worldObj,xCoord,yCoord,zCoord);
     }
 
     @Override
@@ -47,7 +48,7 @@ public class TileEntityEnderNuke extends TileEntityBomb{
         }
         else {
             if (primed) {
-                worldObj.spawnParticle("portal", (double) xCoord, (double) yCoord + 1, (double) zCoord, 0, 0.5, 0);
+                worldObj.spawnParticle("portal", (double) xCoord+worldObj.rand.nextFloat(), (double) yCoord + 1, (double) zCoord+worldObj.rand.nextFloat(), 0, 0.5, 0);
             }
             coreRotation += ConfigurationHandler.enderNuke_coreRotation;
             red += ConfigurationHandler.enderNuke_redRotation;
